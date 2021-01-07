@@ -18,11 +18,14 @@ jobs:
         dotnet-version: 5.0.100
    # publishes Blazor project to the release-folder
     - name: Publish .NET Core Project
-      run: dotnet publish blazor-github-pages-demo.csproj -c Release -o release --nologo    
+      run:  |
+        cp wwwroot/index.html wwwroot/404.html
+        dotnet publish blazor-github-pages-demo.csproj -c Release -o release --nologo    
     # changes the base-tag in index.html from '/' to 'brazor-demo' to match GitHub Pages repository subdirectory
     - name: Change base-tag in index.html from / to brazor-demo
       run: sed -i 's/<base href="\/" \/>/<base href="\/brazor-demo\/" \/>/g' release/wwwroot/index.html
-      
+     # Generate the website
+    
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
